@@ -18,7 +18,7 @@ const SearchComponent = () => {
     if (!keyword) return;
 
     try {
-      const response = await axios.get(`http://localhost:5050/api/v1/search`, {
+      const response = await axios.get(`https://protean-unity-423404-t2.an.r.appspot.com//api/v1/search`, {
         params: { keyword: keyword },
       });
 
@@ -34,7 +34,7 @@ const SearchComponent = () => {
   const saveKeyword = async () => {
     try {
       if (keyword) {
-        await axios.post('http://localhost:5050/api/v1/keywords', { keyword: keyword });
+        await axios.post('https://protean-unity-423404-t2.an.r.appspot.com//api/v1/keywords', { keyword: keyword });
         alert('キーワードが正常に保存されました');
         fetchSearchHistory(); // 保存後に検索履歴を再取得
       } else {
@@ -48,7 +48,7 @@ const SearchComponent = () => {
 
   const fetchSearchHistory = async () => {
     try {
-      const response = await axios.get('http://localhost:5050/api/v1/search-history');
+      const response = await axios.get('https://protean-unity-423404-t2.an.r.appspot.com/v1/search-history');
       setSearchHistory(response.data);
       setShowHistory(true);
       setShowResults(false);
@@ -60,7 +60,7 @@ const SearchComponent = () => {
 
   const fetchDiffResults = async () => {
     try {
-      const response = await axios.get('http://localhost:5050/api/v1/search-results-diff', {
+      const response = await axios.get('https://protean-unity-423404-t2.an.r.appspot.com/search-results-diff', {
         params: { keyword: keyword },
       });
       setDiffResults(response.data);
@@ -74,7 +74,7 @@ const SearchComponent = () => {
 
   const deleteKeyword = async (id) => {
     try {
-      await axios.delete(`http://localhost:5050/api/v1/keywords/${id}`);
+      await axios.delete(`https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords/${id}`);
       alert('キーワードが正常に削除されました');
       fetchSearchHistory(); // 削除後に検索履歴を再取得
     } catch (error) {

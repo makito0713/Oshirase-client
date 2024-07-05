@@ -10,7 +10,7 @@ const Keywords = () => {
   useEffect(() => {
     const fetchKeywords = async () => {
       try {
-        const response = await axios.get('http://localhost:5050/api/v1/search-history');
+        const response = await axios.get('https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history');
         setKeywords(response.data);
       } catch (error) {
         console.error('Error fetching keywords:', error);
@@ -22,7 +22,7 @@ const Keywords = () => {
   const handleKeywordClick = async (keyword) => {
     setSelectedKeyword(keyword);
     try {
-      const response = await axios.get(`http://localhost:5050/api/v1/search-results-diff`, { params: { keyword } });
+      const response = await axios.get(`https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff`, { params: { keyword } });
       setDiffResults(response.data);
     } catch (error) {
       console.error('Error fetching diff results:', error);
@@ -39,7 +39,7 @@ const Keywords = () => {
 
   const notifyKeyword = async (keyword) => {
     try {
-      await axios.post('http://localhost:5050/api/v1/line-notification', { keyword: keyword });
+      await axios.post('https://protean-unity-423404-t2.an.r.appspot.com/api/v1/line-notification', { keyword: keyword });
       alert('キーワードの通知が完了しました');
     } catch (error) {
       console.error('通知エラー:', error);
