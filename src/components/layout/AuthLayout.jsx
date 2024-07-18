@@ -31,11 +31,11 @@ const AuthLayout = () => {
             flexDirection: "column",
           }}
         >
-          <img
+          {/* <img
             src={Logo}
             alt=""
             style={{ width: 262, height: 192, marginBottom: 3 }}
-          />
+          /> */}
           Oshirase
         </Box>
         <Outlet />
