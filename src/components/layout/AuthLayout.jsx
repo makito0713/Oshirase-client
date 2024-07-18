@@ -3,7 +3,7 @@ import { Container } from "@mui/system";
 import React from "react";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Logo from "../../assets/images/A5337F77-7446-439C-9D0C-8AF905B87EB8.jpeg";
+// import Logo from "../../assets/images/A5337F77-7446-439C-9D0C-8AF905B87EB8.jpeg";
 import authUtils from "../../utils/authUtils";
 
 const AuthLayout = () => {

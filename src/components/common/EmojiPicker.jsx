@@ -27,7 +27,7 @@ const EmojiPicker = (props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ position: "relative", display: "inline-block" }}>
       <Typography
         variant="h3"
         fontWeight="700"
@@ -40,7 +40,9 @@ const EmojiPicker = (props) => {
         sx={{
           display: isShowPicker ? "block" : "none",
           position: "absolute",
-          zindex: "100",
+          top: "100%", // 絵文字ピッカーをボタンの下に表示
+          left: "0", // 必要に応じて調整
+          zIndex: "1000",
         }}
       >
         <Picker onEmojiSelect={selectEmoji} />
