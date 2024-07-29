@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Box,
@@ -45,7 +45,7 @@ const SearchComponent = () => {
       setShowHistory(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索中にエラーが発生しました:", error);
+      console.error("検索中にエラーが発生しました:", error.message);
       alert("検索中にエラーが発生しました");
     }
   };
@@ -62,14 +62,14 @@ const SearchComponent = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に保存されました");
-      fetchSearchHistory(); // 保存後に検索履歴を再取得
+      fetchSearchHistory();
     } catch (error) {
-      console.error("キーワード保存中にエラーが発生しました:", error);
+      console.error("キーワード保存中にエラーが発生しました:", error.message);
       alert("キーワードの保存中にエラーが発生しました");
     }
   };
 
-  const fetchSearchHistory = async () => {
+  const fetchSearchHistory = useCallback(async () => {
     try {
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
@@ -80,10 +80,10 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索履歴の取得中にエラーが発生しました:", error);
+      console.error("検索履歴の取得中にエラーが発生しました:", error.message);
       alert("検索履歴の取得中にエラーが発生しました");
     }
-  };
+  }, [token]);
 
   const fetchDiffResults = async () => {
     try {
@@ -99,7 +99,7 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowHistory(false);
     } catch (error) {
-      console.error("差分結果の取得中にエラーが発生しました:", error);
+      console.error("差分結果の取得中にエラーが発生しました:", error.message);
       alert("差分結果の取得中にエラーが発生しました");
     }
   };
@@ -111,16 +111,16 @@ const SearchComponent = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に削除されました");
-      fetchSearchHistory(); // 削除後に検索履歴を再取得
+      fetchSearchHistory();
     } catch (error) {
-      console.error("キーワード削除中にエラーが発生しました:", error);
+      console.error("キーワード削除中にエラーが発生しました:", error.message);
       alert("キーワードの削除中にエラーが発生しました");
     }
   };
 
   useEffect(() => {
     fetchSearchHistory();
-  }, []);
+  }, [fetchSearchHistory]); // `fetchSearchHistory` を依存配列に追加
 
   return (
     <Box sx={{ padding: "20px" }}>
