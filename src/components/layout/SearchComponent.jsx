@@ -21,9 +21,7 @@ const SearchComponent = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
 
-  const getAuthToken = () => {
-    return localStorage.getItem("token"); // JWTトークンが保存されている場所
-  };
+  const token = "ユーザーのJWTトークン"; // 本来は適切な方法でトークンを取得してください
 
   const searchKeyword = async (event) => {
     event.preventDefault();
@@ -35,10 +33,10 @@ const SearchComponent = () => {
 
     try {
       const response = await axios.get(
-        "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search",
+        `https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search`,
         {
           params: { keyword: keyword },
-          headers: { Authorization: `Bearer ${getAuthToken()}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -58,11 +56,10 @@ const SearchComponent = () => {
         alert("キーワードを入力してください");
         return;
       }
-
       await axios.post(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
         { keyword },
-        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に保存されました");
       fetchSearchHistory(); // 保存後に検索履歴を再取得
@@ -76,7 +73,7 @@ const SearchComponent = () => {
     try {
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
-        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setSearchHistory(response.data);
       setShowHistory(true);
@@ -94,7 +91,7 @@ const SearchComponent = () => {
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff",
         {
           params: { keyword: keyword },
-          headers: { Authorization: `Bearer ${getAuthToken()}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setDiffResults(response.data);
@@ -111,7 +108,7 @@ const SearchComponent = () => {
     try {
       await axios.delete(
         `https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords/${id}`,
-        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に削除されました");
       fetchSearchHistory(); // 削除後に検索履歴を再取得
