@@ -21,8 +21,7 @@ const SearchComponent = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
 
-  // JWTトークンの取得方法を修正
-  const token = localStorage.getItem("userToken"); // トークンを適切に取得する方法に修正
+  const token = localStorage.getItem("userToken");
 
   const searchKeyword = async (event) => {
     event.preventDefault();
@@ -46,7 +45,7 @@ const SearchComponent = () => {
       setShowHistory(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索中にエラーが発生しました:", error.message); // error.message に修正
+      console.error("検索中にエラーが発生しました:", error.message);
       alert("検索中にエラーが発生しました");
     }
   };
@@ -63,9 +62,9 @@ const SearchComponent = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に保存されました");
-      fetchSearchHistory(); // 保存後に検索履歴を再取得
+      fetchSearchHistory();
     } catch (error) {
-      console.error("キーワード保存中にエラーが発生しました:", error.message); // error.message に修正
+      console.error("キーワード保存中にエラーが発生しました:", error.message);
       alert("キーワードの保存中にエラーが発生しました");
     }
   };
@@ -81,7 +80,7 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索履歴の取得中にエラーが発生しました:", error.message); // error.message に修正
+      console.error("検索履歴の取得中にエラーが発生しました:", error.message);
       alert("検索履歴の取得中にエラーが発生しました");
     }
   };
@@ -100,7 +99,7 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowHistory(false);
     } catch (error) {
-      console.error("差分結果の取得中にエラーが発生しました:", error.message); // error.message に修正
+      console.error("差分結果の取得中にエラーが発生しました:", error.message);
       alert("差分結果の取得中にエラーが発生しました");
     }
   };
@@ -112,16 +111,16 @@ const SearchComponent = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に削除されました");
-      fetchSearchHistory(); // 削除後に検索履歴を再取得
+      fetchSearchHistory();
     } catch (error) {
-      console.error("キーワード削除中にエラーが発生しました:", error.message); // error.message に修正
+      console.error("キーワード削除中にエラーが発生しました:", error.message);
       alert("キーワードの削除中にエラーが発生しました");
     }
   };
 
   useEffect(() => {
     fetchSearchHistory();
-  }, []);
+  }, []); // 依存配列に `fetchSearchHistory` を追加するか、空の配列を使用
 
   return (
     <Box sx={{ padding: "20px" }}>
