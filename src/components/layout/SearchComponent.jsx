@@ -21,16 +21,24 @@ const SearchComponent = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
 
+  const getAuthToken = () => {
+    return localStorage.getItem("token"); // JWTトークンが保存されている場所
+  };
+
   const searchKeyword = async (event) => {
     event.preventDefault();
 
-    if (!keyword) return;
+    if (!keyword) {
+      alert("キーワードを入力してください");
+      return;
+    }
 
     try {
       const response = await axios.get(
-        `https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search`,
+        "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search",
         {
           params: { keyword: keyword },
+          headers: { Authorization: `Bearer ${getAuthToken()}` },
         }
       );
 
@@ -40,23 +48,24 @@ const SearchComponent = () => {
       setShowDiff(false);
     } catch (error) {
       console.error("検索中にエラーが発生しました:", error);
+      alert("検索中にエラーが発生しました");
     }
   };
 
   const saveKeyword = async () => {
     try {
-      if (keyword) {
-        // userフィールドを追加
-        const user = "ユーザーID"; // 適切なユーザーIDを使用してください
-        await axios.post(
-          "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
-          { user, keyword }
-        );
-        alert("キーワードが正常に保存されました");
-        fetchSearchHistory(); // 保存後に検索履歴を再取得
-      } else {
+      if (!keyword) {
         alert("キーワードを入力してください");
+        return;
       }
+
+      await axios.post(
+        "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
+        { keyword },
+        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
+      );
+      alert("キーワードが正常に保存されました");
+      fetchSearchHistory(); // 保存後に検索履歴を再取得
     } catch (error) {
       console.error("キーワード保存中にエラーが発生しました:", error);
       alert("キーワードの保存中にエラーが発生しました");
@@ -66,7 +75,8 @@ const SearchComponent = () => {
   const fetchSearchHistory = async () => {
     try {
       const response = await axios.get(
-        "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history"
+        "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
+        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
       );
       setSearchHistory(response.data);
       setShowHistory(true);
@@ -74,6 +84,7 @@ const SearchComponent = () => {
       setShowDiff(false);
     } catch (error) {
       console.error("検索履歴の取得中にエラーが発生しました:", error);
+      alert("検索履歴の取得中にエラーが発生しました");
     }
   };
 
@@ -83,6 +94,7 @@ const SearchComponent = () => {
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff",
         {
           params: { keyword: keyword },
+          headers: { Authorization: `Bearer ${getAuthToken()}` },
         }
       );
       setDiffResults(response.data);
@@ -91,13 +103,15 @@ const SearchComponent = () => {
       setShowHistory(false);
     } catch (error) {
       console.error("差分結果の取得中にエラーが発生しました:", error);
+      alert("差分結果の取得中にエラーが発生しました");
     }
   };
 
   const deleteKeyword = async (id) => {
     try {
       await axios.delete(
-        `https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords/${id}`
+        `https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords/${id}`,
+        { headers: { Authorization: `Bearer ${getAuthToken()}` } }
       );
       alert("キーワードが正常に削除されました");
       fetchSearchHistory(); // 削除後に検索履歴を再取得
