@@ -21,7 +21,8 @@ const SearchComponent = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
 
-  const token = "ユーザーのJWTトークン"; // 本来は適切な方法でトークンを取得してください
+  // JWTトークンの取得方法を修正
+  const token = localStorage.getItem("userToken"); // トークンを適切に取得する方法に修正
 
   const searchKeyword = async (event) => {
     event.preventDefault();
@@ -45,7 +46,7 @@ const SearchComponent = () => {
       setShowHistory(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索中にエラーが発生しました:", error);
+      console.error("検索中にエラーが発生しました:", error.message); // error.message に修正
       alert("検索中にエラーが発生しました");
     }
   };
@@ -64,7 +65,7 @@ const SearchComponent = () => {
       alert("キーワードが正常に保存されました");
       fetchSearchHistory(); // 保存後に検索履歴を再取得
     } catch (error) {
-      console.error("キーワード保存中にエラーが発生しました:", error);
+      console.error("キーワード保存中にエラーが発生しました:", error.message); // error.message に修正
       alert("キーワードの保存中にエラーが発生しました");
     }
   };
@@ -80,7 +81,7 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowDiff(false);
     } catch (error) {
-      console.error("検索履歴の取得中にエラーが発生しました:", error);
+      console.error("検索履歴の取得中にエラーが発生しました:", error.message); // error.message に修正
       alert("検索履歴の取得中にエラーが発生しました");
     }
   };
@@ -99,7 +100,7 @@ const SearchComponent = () => {
       setShowResults(false);
       setShowHistory(false);
     } catch (error) {
-      console.error("差分結果の取得中にエラーが発生しました:", error);
+      console.error("差分結果の取得中にエラーが発生しました:", error.message); // error.message に修正
       alert("差分結果の取得中にエラーが発生しました");
     }
   };
@@ -113,7 +114,7 @@ const SearchComponent = () => {
       alert("キーワードが正常に削除されました");
       fetchSearchHistory(); // 削除後に検索履歴を再取得
     } catch (error) {
-      console.error("キーワード削除中にエラーが発生しました:", error);
+      console.error("キーワード削除中にエラーが発生しました:", error.message); // error.message に修正
       alert("キーワードの削除中にエラーが発生しました");
     }
   };
