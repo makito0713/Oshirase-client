@@ -233,7 +233,7 @@ const SearchComponent = () => {
             )}
             {diffResults.removed.length > 0 && (
               <Box sx={{ marginTop: "20px" }}>
-                <Typography variant="h6">削除された結果</Typography>
+                <Typography variant="h6">過去に追加された結果</Typography>
                 <List>
                   {diffResults.removed.map((item, index) => (
                     <ListItem key={index} alignItems="flex-start">
