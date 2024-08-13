@@ -22,6 +22,7 @@ const SearchComponent = () => {
   const [showDiff, setShowDiff] = useState(false);
 
   const token = localStorage.getItem("userToken");
+  const userId = localStorage.getItem("userId"); // ユーザーIDを取得する
 
   const searchKeyword = async (event) => {
     event.preventDefault();
@@ -51,8 +52,6 @@ const SearchComponent = () => {
   };
 
   const saveKeyword = async () => {
-    const userId = localStorage.getItem("userId"); // ユーザーIDを取得する
-
     try {
       if (!keyword) {
         alert("キーワードを入力してください");
@@ -75,7 +74,10 @@ const SearchComponent = () => {
     try {
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          params: { user: userId }, // user フィールドを追加
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setSearchHistory(response.data);
       setShowHistory(true);
@@ -85,14 +87,14 @@ const SearchComponent = () => {
       console.error("検索履歴の取得中にエラーが発生しました:", error.message);
       alert("検索履歴の取得中にエラーが発生しました");
     }
-  }, [token]);
+  }, [token, userId]);
 
   const fetchDiffResults = async () => {
     try {
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff",
         {
-          params: { keyword: keyword },
+          params: { keyword: keyword, user: userId }, // user フィールドを追加
           headers: { Authorization: `Bearer ${token}` },
         }
       );
@@ -122,7 +124,7 @@ const SearchComponent = () => {
 
   useEffect(() => {
     fetchSearchHistory();
-  }, [fetchSearchHistory]); // `fetchSearchHistory` を依存配列に追加
+  }, [fetchSearchHistory]);
 
   return (
     <Box sx={{ padding: "20px" }}>
