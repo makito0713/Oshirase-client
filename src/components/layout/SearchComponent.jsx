@@ -51,6 +51,8 @@ const SearchComponent = () => {
   };
 
   const saveKeyword = async () => {
+    const userId = localStorage.getItem("userId"); // ユーザーIDを取得する
+
     try {
       if (!keyword) {
         alert("キーワードを入力してください");
@@ -58,7 +60,7 @@ const SearchComponent = () => {
       }
       await axios.post(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
-        { keyword },
+        { keyword, user: userId }, // user フィールドを追加
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に保存されました");
