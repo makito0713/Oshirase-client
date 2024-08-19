@@ -57,6 +57,8 @@ const SearchComponent = () => {
         alert("キーワードを入力してください");
         return;
       }
+      // userId が正しく取得できているか確認
+      console.log("User ID:", userId);
       await axios.post(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
         { keyword, user: userId }, // user フィールドを追加
