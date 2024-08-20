@@ -60,7 +60,6 @@ const SearchComponent = () => {
 
       if (!userId) {
         alert("ユーザーIDが取得できません。ログインし直してください。");
-        console.error("ユーザーIDが取得できません。");
         return;
       }
 
@@ -81,15 +80,10 @@ const SearchComponent = () => {
 
   const fetchSearchHistory = useCallback(async () => {
     try {
-      if (!userId) {
-        alert("ユーザーIDが取得できません。ログインし直してください。");
-        return;
-      }
-
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
         {
-          params: { user: userId },
+          params: { user: userId }, // user フィールドを追加
           headers: { Authorization: `Bearer ${token}` },
         }
       );
@@ -105,15 +99,10 @@ const SearchComponent = () => {
 
   const fetchDiffResults = async () => {
     try {
-      if (!userId) {
-        alert("ユーザーIDが取得できません。ログインし直してください。");
-        return;
-      }
-
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff",
         {
-          params: { keyword: keyword, user: userId },
+          params: { keyword: keyword, user: userId }, // user フィールドを追加
           headers: { Authorization: `Bearer ${token}` },
         }
       );
@@ -149,7 +138,8 @@ const SearchComponent = () => {
     <Box sx={{ padding: "20px" }}>
       <form onSubmit={searchKeyword}>
         <TextField
-          id="search_keyword_input"
+          id="search_keyword_input" // id 属性を追加
+          name="keyword" // name 属性を追加
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
