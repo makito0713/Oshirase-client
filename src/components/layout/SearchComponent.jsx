@@ -58,9 +58,9 @@ const SearchComponent = () => {
         return;
       }
 
-      const userId = localStorage.getItem("userId");
       if (!userId) {
         alert("ユーザーIDが取得できません。ログインし直してください。");
+        console.error("ユーザーIDが取得できません。");
         return;
       }
 
@@ -81,10 +81,15 @@ const SearchComponent = () => {
 
   const fetchSearchHistory = useCallback(async () => {
     try {
+      if (!userId) {
+        alert("ユーザーIDが取得できません。ログインし直してください。");
+        return;
+      }
+
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-history",
         {
-          params: { user: userId }, // user フィールドを追加
+          params: { user: userId },
           headers: { Authorization: `Bearer ${token}` },
         }
       );
@@ -100,10 +105,15 @@ const SearchComponent = () => {
 
   const fetchDiffResults = async () => {
     try {
+      if (!userId) {
+        alert("ユーザーIDが取得できません。ログインし直してください。");
+        return;
+      }
+
       const response = await axios.get(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/search-results-diff",
         {
-          params: { keyword: keyword, user: userId }, // user フィールドを追加
+          params: { keyword: keyword, user: userId },
           headers: { Authorization: `Bearer ${token}` },
         }
       );
