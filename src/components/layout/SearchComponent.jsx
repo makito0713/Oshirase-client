@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
-const SearchComponent = () => {
+const SearchComponent = ({ token, userId }) => {
+  // tokenとuserIdをプロップスとして受け取る
   const [keyword, setKeyword] = useState("");
   const [results, setResults] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
@@ -127,8 +128,8 @@ const SearchComponent = () => {
     <Box sx={{ padding: "20px" }}>
       <form onSubmit={searchKeyword}>
         <TextField
-          id="search_keyword_input" // id 属性を追加
-          name="keyword" // name 属性を追加
+          id="search_keyword_input"
+          name="keyword"
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
@@ -168,8 +169,8 @@ const SearchComponent = () => {
         <Box sx={{ marginTop: "20px" }}>
           <Typography variant="h6">検索結果</Typography>
           <List>
-            {results.map((item, index) => (
-              <ListItem key={index} alignItems="flex-start">
+            {results.map((item) => (
+              <ListItem key={item.link} alignItems="flex-start">
                 <ListItemText
                   primary={
                     <a
@@ -192,8 +193,8 @@ const SearchComponent = () => {
         <Box sx={{ marginTop: "20px" }}>
           <Typography variant="h6">検索履歴</Typography>
           <List>
-            {searchHistory.map((item, index) => (
-              <ListItem key={index} alignItems="flex-start">
+            {searchHistory.map((item) => (
+              <ListItem key={item._id} alignItems="flex-start">
                 <ListItemText
                   primary={item.keyword}
                   secondary={new Date(item.createdAt).toLocaleString()}
@@ -214,8 +215,8 @@ const SearchComponent = () => {
               <Box>
                 <Typography variant="h6">追加された結果</Typography>
                 <List>
-                  {diffResults.added.map((item, index) => (
-                    <ListItem key={index} alignItems="flex-start">
+                  {diffResults.added.map((item) => (
+                    <ListItem key={item.link} alignItems="flex-start">
                       <ListItemText
                         primary={
                           <a
@@ -237,8 +238,8 @@ const SearchComponent = () => {
               <Box sx={{ marginTop: "20px" }}>
                 <Typography variant="h6">過去に追加された結果</Typography>
                 <List>
-                  {diffResults.removed.map((item, index) => (
-                    <ListItem key={index} alignItems="flex-start">
+                  {diffResults.removed.map((item) => (
+                    <ListItem key={item.link} alignItems="flex-start">
                       <ListItemText
                         primary={
                           <a
