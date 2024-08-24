@@ -21,9 +21,6 @@ const SearchComponent = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
 
-  const token = localStorage.getItem("userToken");
-  const userId = localStorage.getItem("userId"); // ユーザーIDを取得する
-
   const searchKeyword = async (event) => {
     event.preventDefault();
 
@@ -57,14 +54,6 @@ const SearchComponent = () => {
         alert("キーワードを入力してください");
         return;
       }
-
-      if (!userId) {
-        alert("ユーザーIDが取得できません。ログインし直してください。");
-        return;
-      }
-
-      console.log("Sending data:", { keyword, user: userId });
-
       await axios.post(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
         { keyword, user: userId },
