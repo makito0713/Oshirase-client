@@ -57,7 +57,7 @@ const SearchComponent = ({ token, userId }) => {
       }
       await axios.post(
         "https://protean-unity-423404-t2.an.r.appspot.com/api/v1/keywords",
-        { keyword },
+        { keyword, userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("キーワードが正常に保存されました");
